@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import {
-  // createPost,
+  createPost,
   // updatePost,
   // deletePost,
   // getPost,
@@ -20,7 +20,8 @@ function App() {
   return (
     <div className="App">
       <h1>Let's Get Start!</h1>
-      {posts.length}
+      <button onClick={() => createPost()}>Create</button>
+      <div>{posts.length}</div>
     </div>
   );
 }
