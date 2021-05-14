@@ -24,18 +24,29 @@ db.version(1).stores({ posts: "++id,title,content" });
 //     alert(e.stack || e);
 // });
 
-export const createPost = async (inData = {title: 'first post', content: 'keep rolling!'}) => {
-  console.log(inData)
-  const id = await db.posts.add(inData);
-  console.log(id)
-  return id;
+export const createPost = () => {
+  console.log("createPost")
+  // async (inData = {title: 'first post', content: 'keep rolling!'}) => {
+  // console.log(inData)
+  // const id = await db.posts.add(inData);
+
+  // return id;
 };
 
 // export const getPost = async (inId = '') => {
 // };
 
-export const listPosts = async () => {
-  const result = await db.posts.toArray();
+export const readPosts = () => {
+  console.log('readPosts')
+  // const result = await db.posts.toArray();
 
-  return result
+  // return result
 };
+
+export const updatePost = () => {
+  console.log('updatePost')
+}
+
+export const deletePost = () => {
+  console.log('deletePost')
+}
