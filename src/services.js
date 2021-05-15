@@ -24,7 +24,7 @@ db.open()
 //     alert(e.stack || e);
 // });
 
-// export default db
+export default db
 
 export const createPost = (dbtable, data) => {
   let flag = empty(data)
@@ -45,12 +45,12 @@ export const createPost = (dbtable, data) => {
 
 const empty = obj => {
   let flag = false;
-  for (const value in obj) {
-    if (obj[value] !== "" && obj.hasOwnProperty(value)) {
+  for (const key in obj) {
+    if (obj[key] !== "" && obj.hasOwnProperty(key)) {
       flag = true
     } else {
-      flag = false
-    }    
+      return flag = false
+    }
   }
   return flag
 }

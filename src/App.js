@@ -9,7 +9,7 @@ import {
   Container
 } from '@material-ui/core'
 import './App.css';
-import {
+import db, {
   createPost,
   readPosts,
   updatePost,
@@ -62,19 +62,16 @@ function App() {
 
   const handleTitle = (event) => {
     setTitle(event.target.value)
-    console.log(title)
   }
 
   const handleContent = (event) => {
     setContent(event.target.value)
-    console.log(content)
   }
   // useEffect(() => {
   //   (async() => {
   //     setPosts(await readPosts());
   //   })();
   // }, []);
-
   return (
     <div className="App">
       <h1>BLOGS</h1>
@@ -86,12 +83,12 @@ function App() {
         </FormControl>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="post-title">Title</InputLabel>
-          <Input id="post-title" aria-describedby="title-helper-text" onChange={handleTitle}/>
+          <Input id="post-title" aria-describedby="title-helper-text" onChange={handleTitle} value={title}/>
           <FormHelperText id="title-helper-text">Title is IMPORTANT!!</FormHelperText>
         </FormControl>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="post-content">Content</InputLabel>
-          <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent}/>
+          <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent} value={content}/>
           <FormHelperText id="content-helper-text">Ya...Tell Me About it ~</FormHelperText>
         </FormControl>
       </Container>
@@ -102,7 +99,15 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={createPost}
+          onClick={(event) => {
+            let flag = createPost(db.posts, {
+              title: title,
+              content: content
+            })
+            setTitle("")
+            setContent("")
+            console.log(flag)
+          }}
         >
           create
         </Button>
