@@ -3,9 +3,9 @@ import Dexie from 'dexie';
 //
 // Declare Database
 //
-const db = new Dexie("PostDatabase");
+const db = new Dexie("blogdb");
 db.version(1).stores({ posts: "++id,title,content" });
-
+db.open()
 // db.transaction('rw', db.posts, async() => {
 
 //     // Make sure we have something in DB:
@@ -24,14 +24,36 @@ db.version(1).stores({ posts: "++id,title,content" });
 //     alert(e.stack || e);
 // });
 
-export const createPost = () => {
-  console.log("createPost")
+// export default db
+
+export const createPost = (dbtable, data) => {
+  let flag = empty(data)
+  if(flag){
+    dbtable.bulkAdd([data])
+    console.log("Data created successfully...!")
+  } else {
+    console.log(`Hello... Please Enter DATA...=.="`)
+  }
+
+  return flag
   // async (inData = {title: 'first post', content: 'keep rolling!'}) => {
   // console.log(inData)
   // const id = await db.posts.add(inData);
 
   // return id;
 };
+
+const empty = obj => {
+  let flag = false;
+  for (const value in obj) {
+    if (obj[value] !== "" && obj.hasOwnProperty(value)) {
+      flag = true
+    } else {
+      flag = false
+    }    
+  }
+  return flag
+}
 
 // export const getPost = async (inId = '') => {
 // };

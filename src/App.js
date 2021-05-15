@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FormControl,
   InputLabel,
@@ -22,7 +22,7 @@ import {
     color: 'white',
     margin: '0.5rem',
     '&:hover': {
-      backgroundColor: '#66ff66',
+      backgroundColor: '#00cc00',
     },
   },
   blue: {
@@ -30,7 +30,7 @@ import {
     color: 'white',
     margin: '0.5rem',
     '&:hover': {
-      backgroundColor: '#6666ff',
+      backgroundColor: '#4d4dff',
     },
   },
   yellow: {
@@ -38,7 +38,7 @@ import {
     color: 'black',
     margin: '0.5rem',
     '&:hover': {
-      backgroundColor: '#ffff66',
+      backgroundColor: '#ffff80',
     },
   },
   red: {
@@ -46,7 +46,7 @@ import {
     color: 'white',
     margin: '0.5rem',
     '&:hover': {
-      backgroundColor: '#ff6666',
+      backgroundColor: '#ff4d4d',
     },
   },
   label: {
@@ -57,11 +57,18 @@ import {
 function App() {
   // const [posts, setPosts] = useState([]);
   const classes = useStyles();
+  const [title, setTitle] = useState("")
+  const [content, setContent] = useState("")
 
   const handleTitle = (event) => {
-    console.log(event.target.value)
+    setTitle(event.target.value)
+    console.log(title)
   }
 
+  const handleContent = (event) => {
+    setContent(event.target.value)
+    console.log(content)
+  }
   // useEffect(() => {
   //   (async() => {
   //     setPosts(await readPosts());
@@ -84,7 +91,7 @@ function App() {
         </FormControl>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="post-content">Content</InputLabel>
-          <Input id="post-content" aria-describedby="content-helper-text" />
+          <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent}/>
           <FormHelperText id="content-helper-text">Ya...Tell Me About it ~</FormHelperText>
         </FormControl>
       </Container>
