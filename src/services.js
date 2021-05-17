@@ -58,12 +58,35 @@ const empty = obj => {
 // export const getPost = async (inId = '') => {
 // };
 
-export const readPosts = () => {
-  console.log('readPosts')
+export const readPosts = (dbtable, fn) => {
+  let index = 0
+  let obj = {}
+  
+  dbtable.count((count) => {
+    if(count) {
+      dbtable.each(table => {
+        obj = SortObj(table)
+        fn(obj, index++)
+      })
+    } else {
+      fn(0)
+    }
+  })
   // const result = await db.posts.toArray();
 
   // return result
 };
+
+const SortObj = obj => {
+  let sortobj = {}
+  sortobj = {
+    id: obj.id,
+    title: obj.title,
+    content: obj.content
+  }
+  return sortobj
+}
+
 
 export const updatePost = () => {
   console.log('updatePost')

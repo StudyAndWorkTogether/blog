@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FormControl,
   InputLabel,
@@ -6,7 +6,12 @@ import {
   FormHelperText,
   Button,
   makeStyles,
-  Container
+  Container,
+  Card,
+  Grid,
+  CardContent,
+  Typography,
+  CardActions
 } from '@material-ui/core'
 import './App.css';
 import db, {
@@ -15,8 +20,18 @@ import db, {
   updatePost,
   deletePost,
  } from './services';
+// import Paper from '@material-ui/core/Paper';
+// import Grid from '@material-ui/core/Grid';
 
- const useStyles = makeStyles({
+ const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
   green: {
     background: 'green',
     color: 'white',
@@ -52,13 +67,14 @@ import db, {
   label: {
     textTransform: 'capitalize',
   },
-});
+}));
 
 function App() {
-  // const [posts, setPosts] = useState([]);
   const classes = useStyles();
+  const [id, setID] = useState(0)
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+  const [posts, setPosts] = useState([])
 
   const handleTitle = (event) => {
     setTitle(event.target.value)
@@ -67,18 +83,23 @@ function App() {
   const handleContent = (event) => {
     setContent(event.target.value)
   }
-  // useEffect(() => {
-  //   (async() => {
-  //     setPosts(await readPosts());
-  //   })();
-  // }, []);
+  
+  useEffect(() => {
+    db.posts.toArray((data) => {
+      setID(data.length)
+      setPosts(data)
+    })
+  }, []);
+
+  console.log("inApp")
+
   return (
     <div className="App">
       <h1>BLOGS</h1>
       <Container maxWidth="sm">
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="post-id">ID</InputLabel>
-          <Input id="post-id" aria-describedby="id-helper-text" />
+          <Input id="post-id" aria-describedby="id-helper-text" value={id} readOnly={true}/>
           <FormHelperText id="id-helper-text">This is the Post ID your will get</FormHelperText>
         </FormControl>
         <FormControl fullWidth={true}>
@@ -106,6 +127,9 @@ function App() {
             })
             setTitle("")
             setContent("")
+            readPosts(db.posts, (data) => {
+              setID(data.id + 1 || 1)
+            })
             console.log(flag)
           }}
         >
@@ -117,7 +141,11 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={readPosts}
+          onClick={() => {
+            db.posts.toArray((data) => {
+              setPosts(data)
+            })
+          }}
         >
           read
         </Button>
@@ -142,7 +170,28 @@ function App() {
           delete
         </Button>
       </div>
-      {/* <div>{posts.length}</div> */}
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          {posts.map((post, index) =>
+            <Grid item xs={3} key={index}>
+              <Card className={classes.root}>
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    {post.title}
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                    {post.content}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">Update</Button>
+                  <Button size="small">Delete</Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          )}
+        </Grid>
+      </Container>
     </div>
   );
 }
