@@ -83,11 +83,11 @@ function App() {
   const handleContent = (event) => {
     setContent(event.target.value)
   }
-  
+
   useEffect(() => {
     db.posts.toArray((data) => {
       setPosts(data)
-      setID(data.length + 1)
+      setID(data.length + 1 || 1)
     })
   }, []);
 
@@ -155,11 +155,18 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={() => updatePost(db.posts, {
-            id,
-            title,
-            content
-          })}
+          onClick={() => {
+            updatePost(db.posts, {
+              id,
+              title,
+              content
+            })
+            setTitle("")
+            setContent("")
+            db.posts.toArray((data) => {
+              setID(data.length + 1 || 1)
+            })
+          }}
         >
           update
         </Button>
@@ -169,7 +176,7 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={deletePost}
+          onClick={() => deletePost()}
         >
           delete
         </Button>
@@ -197,7 +204,9 @@ function App() {
                   }}>
                     Edit
                   </Button>
-                  <Button size="small">
+                  <Button size="small" onClick={() => {
+                    db.posts.delete(post.id)
+                  }}>
                     Delete
                   </Button>
                 </CardActions>
