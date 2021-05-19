@@ -16,7 +16,6 @@ import {
 import './App.css';
 import db, {
   createPost,
-  readPosts,
   updatePost,
   deletePost,
  } from './services';
@@ -33,35 +32,39 @@ import db, {
     color: theme.palette.text.secondary,
   },
   green: {
-    background: 'green',
-    color: 'white',
-    margin: '0.5rem',
-    '&:hover': {
-      backgroundColor: '#00cc00',
-    },
-  },
-  blue: {
-    background: 'blue',
-    color: 'white',
-    margin: '0.5rem',
-    '&:hover': {
-      backgroundColor: '#4d4dff',
-    },
-  },
-  yellow: {
-    background: 'yellow',
+    background: '#adebad',
     color: 'black',
     margin: '0.5rem',
     '&:hover': {
-      backgroundColor: '#ffff80',
+      backgroundColor: '#00cc00',
+      fontWeight: 'bold'
+    },
+  },
+  blue: {
+    background: '#b6dfed',
+    color: 'black',
+    margin: '0.5rem',
+    '&:hover': {
+      backgroundColor: '#00bfff',
+      fontWeight: 'bold'
+    },
+  },
+  yellow: {
+    background: '#ffffbe',
+    color: 'black',
+    margin: '0.5rem',
+    '&:hover': {
+      backgroundColor: '#ffff00',
+      fontWeight: 'bold'
     },
   },
   red: {
-    background: 'red',
-    color: 'white',
+    background: '#ff9999',
+    color: 'black',
     margin: '0.5rem',
     '&:hover': {
       backgroundColor: '#ff4d4d',
+      fontWeight: 'bold'
     },
   },
   label: {
@@ -87,11 +90,13 @@ function App() {
   useEffect(() => {
     db.posts.toArray((data) => {
       setPosts(data)
-      setID(data.length + 1 || 1)
+      if(data.length) {
+        setID(data[data.length - 1].id + 1)
+      } else {
+        setID(1)
+      }
     })
   }, []);
-
-  console.log("inApp")
 
   return (
     <div className="App">
@@ -120,15 +125,16 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={(event) => {
+          onClick={() => {
             let flag = createPost(db.posts, {
               title: title,
               content: content
             })
             setTitle("")
             setContent("")
-            readPosts(db.posts, (data) => {
-              setID(data.id + 1 || 1)
+            db.posts.toArray((data) => {
+              // setPosts(data)
+              setID(data[data.length - 1].id + 1)
             })
             console.log(flag)
           }}
@@ -164,7 +170,7 @@ function App() {
             setTitle("")
             setContent("")
             db.posts.toArray((data) => {
-              setID(data.length + 1 || 1)
+              setID(data[data.length - 1].id + 1)
             })
           }}
         >
@@ -206,6 +212,9 @@ function App() {
                   </Button>
                   <Button size="small" onClick={() => {
                     db.posts.delete(post.id)
+                    db.posts.toArray((data) => {
+                      setPosts(data)
+                    })
                   }}>
                     Delete
                   </Button>
