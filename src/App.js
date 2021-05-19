@@ -71,7 +71,7 @@ import db, {
 
 function App() {
   const classes = useStyles();
-  const [id, setID] = useState(0)
+  const [id, setID] = useState("")
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [posts, setPosts] = useState([])
@@ -86,8 +86,8 @@ function App() {
   
   useEffect(() => {
     db.posts.toArray((data) => {
-      setID(data.length)
       setPosts(data)
+      setID(data.length + 1)
     })
   }, []);
 
@@ -155,7 +155,7 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={updatePost}
+          onClick={() => updatePost(db.posts, id, title, content)}
         >
           update
         </Button>
@@ -184,8 +184,18 @@ function App() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Update</Button>
-                  <Button size="small">Delete</Button>
+                  <Button size="small" onClick={() => {
+                    db.posts.get(post.id, (data) => {
+                      setID(data.id)
+                      setTitle(data.title)
+                      setContent(data.content)
+                    })
+                  }}>
+                    Edit
+                  </Button>
+                  <Button size="small">
+                    Delete
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

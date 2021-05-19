@@ -88,8 +88,15 @@ const SortObj = obj => {
 }
 
 
-export const updatePost = () => {
-  console.log('updatePost')
+export const updatePost = (dbtable, id, title, content) => {
+  console.log(dbtable, id, title, content)
+  // const postid = id
+  // dbtable.update(postid, {
+  //   title: title,
+  //   content: content
+  // }).then(()=> {
+  //   console.log('updatePost successfully...!!')
+  // })
 }
 
 export const deletePost = () => {
