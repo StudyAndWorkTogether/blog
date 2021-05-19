@@ -155,7 +155,11 @@ function App() {
             label: classes.label,
           }}
           variant="contained"
-          onClick={() => updatePost(db.posts, id, title, content)}
+          onClick={() => updatePost(db.posts, {
+            id,
+            title,
+            content
+          })}
         >
           update
         </Button>

@@ -61,7 +61,7 @@ const empty = obj => {
 export const readPosts = (dbtable, fn) => {
   let index = 0
   let obj = {}
-  
+
   dbtable.count((count) => {
     if(count) {
       dbtable.each(table => {
@@ -87,16 +87,13 @@ const SortObj = obj => {
   return sortobj
 }
 
-
-export const updatePost = (dbtable, id, title, content) => {
-  console.log(dbtable, id, title, content)
-  // const postid = id
-  // dbtable.update(postid, {
-  //   title: title,
-  //   content: content
-  // }).then(()=> {
-  //   console.log('updatePost successfully...!!')
-  // })
+export const updatePost = (dbtable, data) => {
+  dbtable.update(data.id, {
+    title: data.title,
+    content: data.content
+  }).then(()=> {
+    console.log('updatePost successfully...!!')
+  })
 }
 
 export const deletePost = () => {
