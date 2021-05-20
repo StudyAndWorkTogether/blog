@@ -74,7 +74,6 @@ import db, {
 
 function App() {
   const classes = useStyles();
-  const [id, setID] = useState("")
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [posts, setPosts] = useState([])
@@ -90,11 +89,6 @@ function App() {
   useEffect(() => {
     db.posts.toArray((data) => {
       setPosts(data)
-      if(data.length) {
-        setID(data[data.length - 1].id + 1)
-      } else {
-        setID(1)
-      }
     })
   }, []);
 
@@ -102,11 +96,6 @@ function App() {
     <div className="App">
       <h1>BLOGS</h1>
       <Container maxWidth="sm">
-        <FormControl fullWidth={true}>
-          <InputLabel htmlFor="post-id">ID</InputLabel>
-          <Input id="post-id" aria-describedby="id-helper-text" value={id} readOnly={true}/>
-          <FormHelperText id="id-helper-text">This is the Post ID your will get</FormHelperText>
-        </FormControl>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="post-title">Title</InputLabel>
           <Input id="post-title" aria-describedby="title-helper-text" onChange={handleTitle} value={title}/>
@@ -133,8 +122,7 @@ function App() {
             setTitle("")
             setContent("")
             db.posts.toArray((data) => {
-              // setPosts(data)
-              setID(data[data.length - 1].id + 1)
+              setPosts(data)
             })
             console.log(flag)
           }}
@@ -163,14 +151,13 @@ function App() {
           variant="contained"
           onClick={() => {
             updatePost(db.posts, {
-              id,
               title,
               content
             })
             setTitle("")
             setContent("")
             db.posts.toArray((data) => {
-              setID(data[data.length - 1].id + 1)
+              setPosts(data)
             })
           }}
         >
@@ -203,7 +190,6 @@ function App() {
                 <CardActions>
                   <Button size="small" onClick={() => {
                     db.posts.get(post.id, (data) => {
-                      setID(data.id)
                       setTitle(data.title)
                       setContent(data.content)
                     })
