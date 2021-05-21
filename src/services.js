@@ -87,13 +87,16 @@ const SortObj = obj => {
   return sortobj
 }
 
-export const updatePost = (dbtable, data) => {
-  dbtable.update(data.id, {
-    title: data.title,
-    content: data.content
-  }).then(()=> {
-    console.log('updatePost successfully...!!')
-  })
+export const updatePost = async (dbtable, data) => {
+  let flag = empty(data)
+  if(flag) {
+    dbtable.update(data.id, {
+      title: data.title,
+      content: data.content
+    })
+  } else {
+    console.log(`Hello... Please Enter DATA...=.="`)
+  }
 }
 
 export const deletePost = () => {

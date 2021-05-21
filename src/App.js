@@ -74,6 +74,7 @@ import db, {
 
 function App() {
   const classes = useStyles();
+  const [id,setID] = useState()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [posts, setPosts] = useState([])
@@ -151,9 +152,11 @@ function App() {
           variant="contained"
           onClick={() => {
             updatePost(db.posts, {
+              id,
               title,
               content
             })
+            setID()
             setTitle("")
             setContent("")
             db.posts.toArray((data) => {
@@ -171,7 +174,7 @@ function App() {
           variant="contained"
           onClick={() => deletePost()}
         >
-          delete
+          delete all
         </Button>
       </div>
       <Container maxWidth="lg">
@@ -190,6 +193,7 @@ function App() {
                 <CardActions>
                   <Button size="small" onClick={() => {
                     db.posts.get(post.id, (data) => {
+                      setID(data.id)
                       setTitle(data.title)
                       setContent(data.content)
                     })
@@ -201,6 +205,9 @@ function App() {
                     db.posts.toArray((data) => {
                       setPosts(data)
                     })
+                    setID()
+                    setTitle("")
+                    setContent("")
                   }}>
                     Delete
                   </Button>
