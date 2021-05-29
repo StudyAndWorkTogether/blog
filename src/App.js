@@ -25,6 +25,8 @@ import db, {
  import DialogContentText from '@material-ui/core/DialogContentText';
  import DialogTitle from '@material-ui/core/DialogTitle';
  import TextField from '@material-ui/core/TextField';
+ import Fab from '@material-ui/core/Fab';
+ import AddIcon from '@material-ui/icons/Add';
 // import Paper from '@material-ui/core/Paper';
 // import Grid from '@material-ui/core/Grid';
 
@@ -111,6 +113,9 @@ function App() {
   return (
     <div className="App">
       <h1>BLOGS</h1>
+      <Fab color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open form dialog
       </Button>
@@ -130,6 +135,14 @@ function App() {
             fullWidth
           />
         </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Subscribe
+          </Button>
+        </DialogActions>
       </Dialog>
       <Container maxWidth="sm">
         <FormControl fullWidth={true}>
