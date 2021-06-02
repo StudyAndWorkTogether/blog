@@ -113,12 +113,9 @@ function App() {
   return (
     <div className="App">
       <h1>BLOGS</h1>
-      <Fab color="primary" aria-label="add">
+      <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
         <AddIcon />
       </Fab>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
