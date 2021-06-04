@@ -23,7 +23,7 @@ import db, {
  import DialogActions from '@material-ui/core/DialogActions';
  import DialogContent from '@material-ui/core/DialogContent';
 //  import DialogContentText from '@material-ui/core/DialogContentText';
-//  import DialogTitle from '@material-ui/core/DialogTitle';
+ import DialogTitle from '@material-ui/core/DialogTitle';
 //  import TextField from '@material-ui/core/TextField';
  import Fab from '@material-ui/core/Fab';
  import AddIcon from '@material-ui/icons/Add';
@@ -45,7 +45,6 @@ import db, {
     margin: '0.5rem',
     '&:hover': {
       backgroundColor: '#00cc00',
-      fontWeight: 'bold'
     },
   },
   blue: {
@@ -54,7 +53,6 @@ import db, {
     margin: '0.5rem',
     '&:hover': {
       backgroundColor: '#00bfff',
-      fontWeight: 'bold'
     },
   },
   yellow: {
@@ -63,7 +61,6 @@ import db, {
     margin: '0.5rem',
     '&:hover': {
       backgroundColor: '#ffff00',
-      fontWeight: 'bold'
     },
   },
   red: {
@@ -72,16 +69,19 @@ import db, {
     margin: '0.5rem',
     '&:hover': {
       backgroundColor: '#ff4d4d',
-      fontWeight: 'bold'
     },
   },
   label: {
     textTransform: 'capitalize',
   },
   fab: {
+    backgroundColor: '#DD2E44',
     position: 'absolute',
-    top: theme.spacing(3),
-    right: theme.spacing(73),
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+    '&:hover': {
+      backgroundColor: '#ff4d4d',
+    },
   }
 }));
 
@@ -124,6 +124,7 @@ function App() {
         <AddIcon />
       </Fab>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle> 
         <DialogContent>
           <Container maxWidth="sm">
             <FormControl fullWidth={true}>
