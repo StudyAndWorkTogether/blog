@@ -109,6 +109,10 @@ function App() {
     setContent(event.target.value)
   }
 
+  const getFile = () => {
+    console.log('click getFile')
+  }
+
   useEffect(() => {
     db.posts.toArray((data) => {
       setPosts(data)
@@ -126,7 +130,7 @@ function App() {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle> 
         <DialogContent>
-          <Container maxWidth="sm">
+          <Container>
             <FormControl fullWidth={true}>
               <InputLabel htmlFor="post-title">Title</InputLabel>
               <Input id="post-title" aria-describedby="title-helper-text" onChange={handleTitle} value={title}/>
@@ -137,6 +141,7 @@ function App() {
               <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent} value={content}/>
               <FormHelperText id="content-helper-text">Ya...Tell Me About it ~</FormHelperText>
             </FormControl>
+              <Input id="post-file" aria-describedby="content-helper-text" type="file" onChange={getFile}/>
           </Container>
         </DialogContent>
         <DialogActions>
