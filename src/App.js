@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone'
 import {
   FormControl,
   InputLabel,
@@ -113,6 +114,12 @@ function App() {
     console.log('click getFile')
   }
 
+  const onDrop = useCallback(acceptedFiles => {
+    // Do something with the files
+  }, [])
+  
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
   useEffect(() => {
     db.posts.toArray((data) => {
       setPosts(data)
@@ -122,6 +129,14 @@ function App() {
   return (
     <div className="App">
       <h1>BLOGS</h1>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        {
+          isDragActive ?
+            <p>Drop the files here ...</p> :
+            <p>Drag 'n' drop some files here, or click to select files</p>
+        }
+      </div>
       <Fab color="primary" aria-label="add" onClick={handleClickOpen} classes={{
                 root: classes.fab,
               }}>
