@@ -110,14 +110,14 @@ function App() {
     setContent(event.target.value)
   }
 
-  const getFile = () => {
-    console.log('click getFile')
-  }
+  // const getFile = () => {
+  //   console.log('click getFile')
+  // }
 
   const onDrop = useCallback(acceptedFiles => {
     // Do something with the files
   }, [])
-  
+
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
   useEffect(() => {
@@ -129,21 +129,13 @@ function App() {
   return (
     <div className="App">
       <h1>BLOGS</h1>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {
-          isDragActive ?
-            <p>Drop the files here ...</p> :
-            <p>Drag 'n' drop some files here, or click to select files</p>
-        }
-      </div>
       <Fab color="primary" aria-label="add" onClick={handleClickOpen} classes={{
                 root: classes.fab,
               }}>
         <AddIcon />
       </Fab>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle> 
+        <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle>
         <DialogContent>
           <Container>
             <FormControl fullWidth={true}>
@@ -156,7 +148,14 @@ function App() {
               <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent} value={content}/>
               <FormHelperText id="content-helper-text">Ya...Tell Me About it ~</FormHelperText>
             </FormControl>
-              <Input id="post-file" aria-describedby="content-helper-text" type="file" onChange={getFile}/>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {
+                isDragActive ?
+                  <p>Drop the files here ...</p> :
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+              }
+            </div>
           </Container>
         </DialogContent>
         <DialogActions>
