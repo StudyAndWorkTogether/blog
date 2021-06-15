@@ -93,6 +93,7 @@ function App() {
   const [content, setContent] = useState("")
   const [posts, setPosts] = useState([])
   const [open, setOpen] = useState(false);
+  const [files, setFiles] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -115,16 +116,31 @@ function App() {
   // }
 
   const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
+    setFiles(acceptedFiles.map(file => Object.assign(file, {
+      preview: URL.createObjectURL(file)
+    })))
   }, [])
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({
+    onDrop,
+    accept: 'image/jpeg, image/png'
+  })
+
+  const thumbs = files.map(file => (
+    <div key={file.name}>
+      <img
+        src={file.preview}
+        alt={file.name}
+        style={{width: '200px'}}
+      />
+    </div>
+  ));
 
   useEffect(() => {
     db.posts.toArray((data) => {
       setPosts(data)
     })
-  }, []);
+  }, [])
 
   return (
     <div className="App">
@@ -156,6 +172,9 @@ function App() {
                   <p>Drag 'n' drop some files here, or click to select files</p>
               }
             </div>
+            <aside>
+              {thumbs}
+            </aside>
           </Container>
         </DialogContent>
         <DialogActions>
