@@ -94,6 +94,7 @@ function App() {
   const [posts, setPosts] = useState([])
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -116,9 +117,8 @@ function App() {
   // }
 
   const onDrop = useCallback(acceptedFiles => {
-    setFiles(acceptedFiles.map(file => Object.assign(file, {
-      preview: URL.createObjectURL(file)
-    })))
+    console.log(acceptedFiles)
+    setFiles(acceptedFiles)
   }, [])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
@@ -126,15 +126,24 @@ function App() {
     accept: 'image/jpeg, image/png'
   })
 
-  const thumbs = files.map(file => (
-    <div key={file.name}>
+  const thumbs = previews.map(({name, preview}) => (
+    <div key={name}>
       <img
-        src={file.preview}
-        alt={file.name}
+        src={preview}
+        alt={name}
         style={{width: '200px'}}
       />
     </div>
   ));
+
+  useEffect(() => {
+    setPreviews(files.map(file => {
+      return {
+        name: file.name,
+        preview: URL.createObjectURL(file)
+      };
+    }))
+  }, [files])
 
   useEffect(() => {
     db.posts.toArray((data) => {
@@ -197,7 +206,8 @@ function App() {
               onClick={() => {
                 let flag = createPost(db.posts, {
                   title: title,
-                  content: content
+                  content: content,
+                  files: files
                 })
                 setTitle("")
                 setContent("")
@@ -284,6 +294,7 @@ function App() {
                       setID(data.id)
                       setTitle(data.title)
                       setContent(data.content)
+                      setFiles(data.files)
                     })
                   }}>
                     Edit
