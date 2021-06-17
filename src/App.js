@@ -150,7 +150,16 @@ function App() {
               }}>
         <AddIcon />
       </Fab>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={open}
+        onClose= {
+          () => {
+            handleClose()
+            setTitle("")
+            setContent("")
+          }
+        }
+        aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle>
         <DialogContent>
           <Container>
