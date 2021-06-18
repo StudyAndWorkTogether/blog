@@ -12,7 +12,8 @@ import {
   Grid,
   CardContent,
   Typography,
-  CardActions
+  CardActions,
+  CardMedia
 } from '@material-ui/core'
 import './App.css';
 import db, {
@@ -279,6 +280,11 @@ function App() {
           {posts.map((post, index) =>
             <Grid item xs={3} key={index}>
               <Card className={classes.root}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={post.files ? URL.createObjectURL(post.files[0]) : ""}
+                />
                 <CardContent>
                   <Typography variant="h5" component="h2">
                     {post.title}
