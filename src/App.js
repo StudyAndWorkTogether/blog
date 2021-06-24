@@ -13,6 +13,7 @@ import {
 import './App.css';
 import db from './services';
 import DialogComponent from './DialogComponent'
+import FabComponent from './FabComponent';
 
  const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +93,7 @@ function App() {
   return (
     <div className="App">
       <h1>BLOGS</h1>
+      <FabComponent/>
       <DialogComponent 
         setPosts={setPosts}
         open={open}

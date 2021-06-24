@@ -18,8 +18,6 @@ import {
   DialogTitle,
   makeStyles,
 } from '@material-ui/core'
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,13 +74,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function DialogComponent({ setPosts, open, setOpen }) {
+function DialogComponent({ setPosts, open, handleClose }) {
   const classes = useStyles();
   const [id,setID] = useState()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
-  // const [open, setOpen] = useState(false);
-  // const [posts, setPosts] = useState([])
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([])
 
@@ -95,14 +91,6 @@ function DialogComponent({ setPosts, open, setOpen }) {
     onDrop,
     accept: 'image/jpeg, image/png'
   })
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleTitle = (event) => {
     setTitle(event.target.value)
@@ -139,127 +127,120 @@ function DialogComponent({ setPosts, open, setOpen }) {
 
   return (
     <div className="DialogComponent">
-    <Fab color="primary" aria-label="add" onClick={handleClickOpen} classes={{
-      root: classes.fab,
-      }}>
-      <AddIcon />
-    </Fab>
-    <Dialog
-      open={open}
-      onClose= {
-        () => {
+      <Dialog
+        open={open}
+        onClose={() => {
           handleClose()
           setTitle("")
           setContent("")
-        }
-      }
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle>
-      <DialogContent>
-      <Container>
-          <FormControl fullWidth={true}>
-          <InputLabel htmlFor="post-title">Title</InputLabel>
-          <Input id="post-title" aria-describedby="title-helper-text" onChange={handleTitle} value={title}/>
-          <FormHelperText id="title-helper-text">Title is IMPORTANT!!</FormHelperText>
-          </FormControl>
-          <FormControl fullWidth={true}>
-          <InputLabel htmlFor="post-content">Content</InputLabel>
-          <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent} value={content}/>
-          <FormHelperText id="content-helper-text">Ya...Tell Me About it ~</FormHelperText>
-          </FormControl>
-          <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          {
-              isDragActive ?
-              <p>Drop the files here ...</p> :
-              <p>Drag 'n' drop some files here, or click to select files</p>
-          }
+        }}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Let's Do It</DialogTitle>
+        <DialogContent>
+          <Container>
+            <FormControl fullWidth={true}>
+              <InputLabel htmlFor="post-title">Title</InputLabel>
+              <Input id="post-title" aria-describedby="title-helper-text" onChange={handleTitle} value={title}/>
+              <FormHelperText id="title-helper-text">Title is IMPORTANT!!</FormHelperText>
+            </FormControl>
+            <FormControl fullWidth={true}>
+              <InputLabel htmlFor="post-content">Content</InputLabel>
+              <Input id="post-content" aria-describedby="content-helper-text" onChange={handleContent} value={content}/>
+              <FormHelperText id="content-helper-text">Ya...Tell Me About it ~</FormHelperText>
+            </FormControl>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {
+                  isDragActive ?
+                  <p>Drop the files here ...</p> :
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+              }
+              </div>
+              <aside>
+                {thumbs}
+              </aside>
+          </Container>
+        </DialogContent>
+        <DialogActions>
+          <div>
+            <Button
+            classes={{
+                root: classes.green,
+                label: classes.label,
+            }}
+            variant="contained"
+            onClick={() => {
+                let flag = createPost(db.posts, {
+                title: title,
+                content: content,
+                files: files
+                })
+                setTitle("")
+                setContent("")
+                db.posts.toArray((data) => {
+                setPosts(data)
+                })
+                handleClose()
+                console.log(flag)
+            }}
+            >
+            create
+            </Button>
+            <Button
+            classes={{
+                root: classes.blue,
+                label: classes.label,
+            }}
+            variant="contained"
+            onClick={() => {
+                db.posts.toArray((data) => {
+                setPosts(data)
+                })
+                handleClose()
+            }}
+            >
+            read
+            </Button>
+            <Button
+            classes={{
+                root: classes.yellow,
+                label: classes.label,
+            }}
+            variant="contained"
+            onClick={() => {
+                updatePost(db.posts, {
+                id,
+                title,
+                content
+                })
+                setID()
+                setTitle("")
+                setContent("")
+                db.posts.toArray((data) => {
+                setPosts(data)
+                })
+                handleClose()
+            }}
+            >
+            update
+            </Button>
+            <Button
+            classes={{
+                root: classes.red,
+                label: classes.label,
+            }}
+            variant="contained"
+            onClick={() => {
+                deletePost()
+                handleClose()
+            }}
+            >
+            delete all
+            </Button>
           </div>
-          <aside>
-            {thumbs}
-          </aside>
-      </Container>
-      </DialogContent>
-      <DialogActions>
-      <div>
-          <Button
-          classes={{
-              root: classes.green,
-              label: classes.label,
-          }}
-          variant="contained"
-          onClick={() => {
-              let flag = createPost(db.posts, {
-              title: title,
-              content: content,
-              files: files
-              })
-              setTitle("")
-              setContent("")
-              db.posts.toArray((data) => {
-              setPosts(data)
-              })
-              handleClose()
-              console.log(flag)
-          }}
-          >
-          create
-          </Button>
-          <Button
-          classes={{
-              root: classes.blue,
-              label: classes.label,
-          }}
-          variant="contained"
-          onClick={() => {
-              db.posts.toArray((data) => {
-              setPosts(data)
-              })
-              handleClose()
-          }}
-          >
-          read
-          </Button>
-          <Button
-          classes={{
-              root: classes.yellow,
-              label: classes.label,
-          }}
-          variant="contained"
-          onClick={() => {
-              updatePost(db.posts, {
-              id,
-              title,
-              content
-              })
-              setID()
-              setTitle("")
-              setContent("")
-              db.posts.toArray((data) => {
-              setPosts(data)
-              })
-              handleClose()
-          }}
-          >
-          update
-          </Button>
-          <Button
-          classes={{
-              root: classes.red,
-              label: classes.label,
-          }}
-          variant="contained"
-          onClick={() => {
-              deletePost()
-              handleClose()
-          }}
-          >
-          delete all
-          </Button>
-      </div>
-      </DialogActions>
-    </Dialog>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
