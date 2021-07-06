@@ -20,58 +20,42 @@ import {
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
   green: {
-    background: '#adebad',
     color: 'black',
     margin: '0.5rem',
+    background: '#adebad',
+    textTransform: 'capitalize',
     '&:hover': {
       backgroundColor: '#00cc00',
     },
   },
   blue: {
-    background: '#b6dfed',
     color: 'black',
     margin: '0.5rem',
+    background: '#b6dfed',
+    textTransform: 'capitalize',
     '&:hover': {
       backgroundColor: '#00bfff',
     },
   },
   yellow: {
-    background: '#ffffbe',
     color: 'black',
     margin: '0.5rem',
+    background: '#ffffbe',
+    textTransform: 'capitalize',
     '&:hover': {
       backgroundColor: '#ffff00',
     },
   },
   red: {
-    background: '#ff9999',
     color: 'black',
     margin: '0.5rem',
-    '&:hover': {
-      backgroundColor: '#ff4d4d',
-    },
-  },
-  label: {
+    background: '#ff9999',
     textTransform: 'capitalize',
-  },
-  fab: {
-    backgroundColor: '#DD2E44',
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
     '&:hover': {
       backgroundColor: '#ff4d4d',
     },
-  }
+  },
 }));
 
 function DialogComponent({ setPosts, open, handleClose }) {
@@ -152,91 +136,79 @@ function DialogComponent({ setPosts, open, handleClose }) {
             <div {...getRootProps()}>
               <input {...getInputProps()} />
               {
-                  isDragActive ?
-                  <p>Drop the files here ...</p> :
-                  <p>Drag 'n' drop some files here, or click to select files</p>
+                isDragActive ?
+                <p>Drop the files here ...</p> :
+                <p>Drag 'n' drop some files here, or click to select files</p>
               }
-              </div>
-              <aside>
-                {thumbs}
-              </aside>
+            </div>
+            <aside>
+              {thumbs}
+            </aside>
           </Container>
         </DialogContent>
         <DialogActions>
           <div>
             <Button
-            classes={{
-                root: classes.green,
-                label: classes.label,
-            }}
-            variant="contained"
-            onClick={() => {
+              className={classes.green}
+              variant="contained"
+              onClick={() => {
                 let flag = createPost(db.posts, {
-                title: title,
-                content: content,
-                files: files
+                  title: title,
+                  content: content,
+                  files: files
                 })
                 setTitle("")
                 setContent("")
                 db.posts.toArray((data) => {
-                setPosts(data)
+                  setPosts(data)
                 })
                 handleClose()
                 console.log(flag)
-            }}
+              }}
             >
-            create
+              create
             </Button>
             <Button
-            classes={{
-                root: classes.blue,
-                label: classes.label,
-            }}
-            variant="contained"
-            onClick={() => {
+              className={classes.blue}
+              variant="contained"
+              onClick={() => {
                 db.posts.toArray((data) => {
-                setPosts(data)
+                  setPosts(data)
                 })
                 handleClose()
-            }}
+              }}
             >
-            read
+              read
             </Button>
             <Button
-            classes={{
-                root: classes.yellow,
-                label: classes.label,
-            }}
-            variant="contained"
-            onClick={() => {
+              className={classes.yellow}
+              variant="contained"
+              onClick={() => {
                 updatePost(db.posts, {
-                id,
-                title,
-                content
+                  id,
+                  title,
+                  content
                 })
                 setID()
                 setTitle("")
                 setContent("")
                 db.posts.toArray((data) => {
-                setPosts(data)
+                  setPosts(data)
                 })
                 handleClose()
-            }}
+              }}
             >
-            update
+              update
             </Button>
             <Button
-            classes={{
-                root: classes.red,
-                label: classes.label,
-            }}
-            variant="contained"
-            onClick={() => {
+              className={classes.red}
+              variant="contained"
+              onClick={() => {
                 deletePost()
                 handleClose()
-            }}
+              }}
             >
-            delete all
+              delete all
             </Button>
           </div>
         </DialogActions>
