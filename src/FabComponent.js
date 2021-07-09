@@ -33,9 +33,12 @@ function FabComponent() {
 
   return (
     <div className="FabComponent">
-      <Fab color="primary" aria-label="add" onClick={handleClickOpen} classes={{
-        root: classes.fab,
-      }}>
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={handleClickOpen} 
+        className={classes.fab}
+      >
         <AddIcon />
       </Fab>
       <DialogComponent open={open} handleClose={handleClose}/>
